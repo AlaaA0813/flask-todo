@@ -6,3 +6,7 @@ html {
   font-size: 18px;
   background: lightgoldenrodyellow;
 }
+
+.add_task {
+  padding: 5rem;
+}
