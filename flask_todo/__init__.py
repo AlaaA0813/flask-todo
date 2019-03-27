@@ -18,6 +18,8 @@ def create_app(test_config=None):
 
     @app.route('/')
     def index():
+        # TODO: Get todos from database
+
         return render_template('index.html')
 
 #########################################
