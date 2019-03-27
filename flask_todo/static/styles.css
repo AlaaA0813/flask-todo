@@ -8,5 +8,12 @@ html {
 }
 
 .add_task {
+  font-size: 30px;
+  background: silver;
+  padding: 5rem;
+}
+
+.list {
+  background: silver;
   padding: 5rem;
 }
