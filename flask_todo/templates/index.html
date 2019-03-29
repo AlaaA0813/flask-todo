@@ -4,9 +4,15 @@
 {% block title %}Welcome to your ToDo Manager!{% endblock %}
 
 {% block content %}
-<p>Welcome to your ToDo Manager!Todo List</p>
+<p>Todo List</p>
+
+<ul>
+{% for item in list %}
+  <li>{{ item[1] }} {{ item[2] }}</li>
+{% endfor %}
+</ul>
 
 <form action="http://127.0.0.1:5000/create" >
-<input type="submit" value="Check My List" />
+<input type="submit" value="Add New Task" />
 </form>
 {% endblock %}

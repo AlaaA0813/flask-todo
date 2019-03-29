@@ -56,12 +56,9 @@ def init_db():
 
     with current_app.open_resource('schema.sql') as f:
         cur = db.cursor()
-        cur.execute("SELECT * from task_list")
-        rows = cur.fetchall()
-        print(rows)
         cur.execute(f.read())
-        cur.close()
         db.commit()
+        db.close()
 
 @click.command('init-db')
 @with_appcontext

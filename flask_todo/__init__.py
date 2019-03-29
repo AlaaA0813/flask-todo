@@ -28,21 +28,17 @@ def create_app(test_config=None):
 
     @app.route('/', methods=['GET', 'POST'])
     def index():
-        task = []
 
-        if request.method == 'POST':
-            item = request.form['item']
-
-            if item:
-                con = db.get_db()
-                cur = conn.cursor()
-                cur.execute("SELECT * FROM task_list;")
-                cur.fetchone()
+        if request.method == 'GET':
+            conn = db.get_db()
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM task_list;")
+            list = cur.fetchall()
 
             cur.close()
             conn.close()
 
-        return render_template('index.html')
+        return render_template('index.html', list=list)
 
 #########################################
 
@@ -55,12 +51,11 @@ def create_app(test_config=None):
 
             if item:
                 conn = psycopg2.connect("dbname='todo_manager' user='csetuser' host=127.0.0.1")
-
                 con = db.get_db()
                 cur = conn.cursor()
-                cur.execute("INSERT INTO task_list (task, timestamp_of_task, completed) VALUES (%s, %s, %s)", {{ request.form['item'] }})
+                ts = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                cur.execute("INSERT INTO task_list (task, timestamp_of_task, completed) VALUES (%s, %s, %s);", (item, ts, False))
 
-            ts = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
             conn.commit()
 
@@ -74,6 +69,29 @@ def create_app(test_config=None):
 
 
         return render_template('create.html')
+
+#########################################
+
+#   Update a task
+
+    @app.route('/update', methods=['GET', 'POST'])
+    def update():
+        if request.method == 'POST':
+            item = request.form['item']
+
+            if item:
+                conn = psycopg2.connect("dbname='todo_manager' user='csetuser' host=127.0.0.1")
+                con = db.get_db()
+                cur = conn.cursor()
+                ts = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                cur.execute("UPDATE task_list SET task = ?, timestamp_of_task = ?, completed = False")
+
+            conn.commit()
+
+            cur.close()
+            conn.close()
+
+        return render_template('delete.html')
 
 
     return app
