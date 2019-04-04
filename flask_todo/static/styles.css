@@ -1,19 +1,63 @@
 * {
   box-sizing: border-box;
+  font-family: monospace;
+  text-decoration: none;
 }
 
 html {
-  font-size: 18px;
   background: lightgoldenrodyellow;
+  font-size: 18px;
 }
 
 .add_task {
-  font-size: 30px;
   background: silver;
+  font-size: 30px;
   padding: 5rem;
 }
 
-.list {
+.false {
+  color: #000000;
+  list-style-type: none;
+  margin: 1rem 1rem 1rem 0;
+  padding: 0;
+}
+
+.false li {
+  margin: 1em;
+}
+
+.false li:hover {
+  color: green;
+}
+
+input[type=submit] {
+  font-size: 24px;
+  margin: 2rem;
+  padding: 14px 40px;
+  width: 10rem;
+}
+
+input[type=text] {
   background: silver;
-  padding: 5rem;
+  border: none;
+  border-bottom: 3px solid lightgoldenrodyellow;
+  width: 50%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+::placeholder {
+  font-size: 1rem;
+}
+
+.true {
+  color: #a6a6a6;
+  list-style-type: none;
+  margin: 1rem 1rem 1rem 0;
+  padding: 0;
+}
+
+.true li {
+  margin: 1em;
 }

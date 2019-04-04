@@ -6,16 +6,14 @@
 
 <form class="add_task" method="post">
 
-  <label>Enter Task: </label>
+  <input name="item" value="{{ request.form['item'] }}" type="text" placeholder="Enter Task" required>
 
-  <input name="item" value="{{ request.form['item'] }}" type="text" required>
-
-<input type="submit" value="Add to List!">
+  <input type="submit" value="Add to List">
 
 </form>
 
-<form action="http://127.0.0.1:5000" >
-<input type="submit" value="Check My List" />
+<form action="http://127.0.0.1:5000">
+  <input type="submit" value="Check My List" />
 </form>
 
 {% endblock %}

@@ -20,6 +20,7 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     from . import db
+
     db.init_app(app)
 
 #########################################
@@ -38,6 +39,28 @@ def create_app(test_config=None):
             cur.close()
             conn.close()
 
+        # elif request.method =='POST':
+        #     conn = psycopg2.connect("dbname='todo_manager' user='csetuser' host=127.0.0.1")
+        #     con = db.get_db()
+        #     cur = conn.cursor()
+        #
+        #     ts = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        #     item = request.form.getlist("item")
+        #
+        #     cur.execute("SELECT task_id FROM task_list")
+        #     id = cur.fetchall()
+        #
+        #     cur.execute("UPDATE task_list SET completed = True WHERE task_id = id;")
+        #     conn.commit()
+        #
+        #     cur.execute("SELECT task_id FROM task_list WHERE completed = True;")
+        #     list = cur.fetchall()
+        #
+        #     cur.close()
+        #     conn.close()
+        #
+        #     return render_template('index.html', ts=ts, list=list)
+
         return render_template('index.html', list=list)
 
 #########################################
@@ -54,7 +77,7 @@ def create_app(test_config=None):
                 con = db.get_db()
                 cur = conn.cursor()
                 ts = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                cur.execute("INSERT INTO task_list (task, timestamp_of_task, completed) VALUES (%s, %s, %s);", (item, ts, False))
+                cur.execute("INSERT INTO task_list (task, created_at, completed) VALUES (%s, %s, %s);", (item, ts, False))
 
 
             conn.commit()
@@ -72,26 +95,26 @@ def create_app(test_config=None):
 
 #########################################
 
-#   Update a task
+#   Complete a task
 
-    @app.route('/update', methods=['GET', 'POST'])
-    def update():
-        if request.method == 'POST':
-            item = request.form['item']
+    @app.route('/complete', methods=['GET', 'POST'])
+    def complete():
+        if request.method =='GET':
+            conn = psycopg2.connect("dbname='todo_manager' user='csetuser' host=127.0.0.1")
+            con = db.get_db()
+            cur = conn.cursor()
 
-            if item:
-                conn = psycopg2.connect("dbname='todo_manager' user='csetuser' host=127.0.0.1")
-                con = db.get_db()
-                cur = conn.cursor()
-                ts = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                cur.execute("UPDATE task_list SET task = ?, timestamp_of_task = ?, completed = False")
+            ts = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-            conn.commit()
-
+            item = request.form.getlist("task_list")
+            cur.execute("SELECT task_id FROM task_list WHERE completed = true")
+            list = cur.fetchall()
             cur.close()
             conn.close()
 
-        return render_template('delete.html')
+            return render_template('complete.html', list=list, ts=ts, item=item)
+
+        return render_template('complete.html', list=list)
 
 
     return app

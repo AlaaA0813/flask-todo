@@ -1,30 +1,9 @@
 import psycopg2
 
 import click
+
 from flask import current_app, g
 from flask.cli import with_appcontext
-
-
-#   con = None
-
-#   try:
-#       conn = psycopg2.connect("dbname='todo_manager' user='csetuser' host='127.0.0.1'")
-
-#   except:
-#       print("I am unable to connect to the database")
-
-#   cur = conn.cursor()
-#   try:
-#       cur.execute("""SELECT * from task_list""")
-#   except:
-#       print("I can't SELECT from task_list")
-
-#   rows = cur.fetchall()
-#   print("\nRows: \n")
-#   for row in rows:
-#       print("   ", row)
-
-##############################################################
 
 #   1.  import module in db.py
 #   2.  set up connection in get_db
@@ -32,7 +11,7 @@ from flask.cli import with_appcontext
 #           -  database name?
 #           -  user?
 #   3.  handle closing connections in close_db
-#   4.  setup init_db functiont o clear out and create tables, w/ cli command
+#   4.  setup init_db function to clear out and create tables, w/ cli command
 #   5. register w/ app
 
 ##############################################################
@@ -63,6 +42,7 @@ def init_db():
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
+    """Clear the existing data and create new tables."""
     init_db()
     click.echo('Initialized the database.')
 
